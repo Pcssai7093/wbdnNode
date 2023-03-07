@@ -1,0 +1,204 @@
+{
+  "users": [
+    {
+      "fullname": "Sravanth",
+      "email": "sravanth143@gmail.com",
+      "password": "sravanth",
+      "id": 1
+    },
+    {
+      "fullname": "rishik bhimavarapu",
+      "email": "thalapathyroyal@gmail.com",
+      "password": "rishik tarak",
+      "confirm_password": "rishik tarak",
+      "id": 2
+    },
+    {
+      "fullname": "rishik",
+      "email": "dfdfdfd@gmail.com",
+      "password": "123456",
+      "confirm_password": "123456",
+      "id": 7
+    },
+    {
+      "fullname": "abraham",
+      "email": "abra@gmail.com",
+      "password": "123456",
+      "confirm_password": "123456",
+      "id": 8
+    },
+    {
+      "fullname": "anand",
+      "email": "123@gmail.com",
+      "password": "chrischris",
+      "confirm_password": "chrischris",
+      "id": 9
+    },
+    {
+      "fullname": "prem",
+      "email": "raja.p20@gmail.com",
+      "password": "12345678",
+      "id": 10
+    },
+    {
+      "fullname": "chandra",
+      "email": "chandrasekhari.p20@gmail.com",
+      "password": "12345678",
+      "confirm_password": "12345678",
+      "id": 11
+    },
+    {
+      "fullname": "sekhar",
+      "email": "chandrasekhari.p20@gmail.com",
+      "password": "1212121212",
+      "confirm_password": "1212121212",
+      "id": 12
+    },
+    {
+      "fullname": "anand",
+      "email": "anand123@gmail.com",
+      "password": "1234512345",
+      "confirm_password": "1234512345",
+      "id": 13
+    },
+    {
+      "fullname": "steve",
+      "email": "steven@gmail.com",
+      "password": "1234512345",
+      "confirm_password": "1234512345",
+      "id": 14
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "title": "insta promotion",
+      "description": "Instagram promotion done for low costs, we publicise and promote instagram accounts that are public figures, movie pages and of all other sorts.",
+      "userId": 1,
+      "date": "date in string",
+      "price": 3000,
+      "category": "web"
+    },
+    {
+      "id": 2,
+      "title": "youtube promotion",
+      "description": "YouTube promotion done for low costs, we publicise and promote youtube channels that are entertainment channels, geeks channels and of all other sorts.",
+      "userId": 1,
+      "date": "date in string",
+      "price": 2000
+    },
+    {
+      "id": 3,
+      "title": "twitter promotion",
+      "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, architecto.",
+      "userId": 1,
+      "date": "date in string",
+      "price": 3400
+    },
+    {
+      "id": 4,
+      "title": "facebook promotion",
+      "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque, architecto.",
+      "userId": 1,
+      "date": "date in string",
+      "price": 4500
+    },
+    {
+      "title": "app development",
+      "description": "app development app development app development app development app development",
+      "price": "1222",
+      "category": "programming",
+      "userId": "1",
+      "id": 5
+    },
+    {
+      "title": "react native development",
+      "description": "react native development react native development react native development",
+      "price": "4000",
+      "category": "web development",
+      "userId": "1",
+      "id": 6
+    },
+    {
+      "title": "qwertyuiop",
+      "description": "azdhkbvkfhaekfurgbiusbgufrgit",
+      "price": "234",
+      "category": "programming",
+      "userId": "1",
+      "id": 16
+    },
+    {
+      "title": "react js tutorials",
+      "description": "sjvfnjsbfouiuvnfouvruvfnibjudgiuifubf",
+      "price": "234",
+      "category": "programming",
+      "userId": "1",
+      "id": 17
+    },
+    {
+      "title": "twitter promotion",
+      "description": "i will help your twitter account to grow to 1000 followers with help of bots",
+      "price": "5000",
+      "category": "programming",
+      "userId": "13",
+      "id": 18
+    },
+    {
+      "title": "web developer in react ",
+      "description": "i will help u in react projects",
+      "price": "5000",
+      "category": "programming",
+      "userId": "14",
+      "id": 19
+    }
+  ],
+  "wishlist": [
+    {
+      "userId": "10",
+      "serviceId": 1,
+      "sellerData": {
+        "fullname": "Sravanth",
+        "email": "sravanth143@gmail.com",
+        "password": "sravanth",
+        "id": 1
+      },
+      "id": 1
+    }
+  ],
+  "admin": [
+    {
+      "id": 1,
+      "username": "boyaverse",
+      "email": "boyaverse@gmail.com"
+    }
+  ],
+  "queries": [
+    {
+      "name": "royal",
+      "age": "89",
+      "email": "boyaverse@gmail.com",
+      "message": "i want a job do you have it",
+      "id": 1
+    },
+    {
+      "name": "Babu",
+      "age": "23",
+      "email": "hello@gmail.com",
+      "message": "i want a job",
+      "id": 2
+    },
+    {
+      "name": "anand",
+      "age": "10",
+      "email": "boyaverse@gmail.com",
+      "message": "i have trouble related with payments",
+      "id": 3
+    },
+    {
+      "name": "jodu rice",
+      "email": "123@email.com",
+      "message": "hi heklllo kghghjg",
+      "id": 4
+    }
+  ]
+}
