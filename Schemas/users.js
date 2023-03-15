@@ -53,9 +53,9 @@ const userSchema = new schema(
       type: [schema.Types.ObjectId],
       ref: "services",
     },
-    chats:{
+    conversations:{
       type:[schema.Types.ObjectId],
-      ref:"chats"
+      ref:"conversations"
     }
   },
   { timestamps: true }

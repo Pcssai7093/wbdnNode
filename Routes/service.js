@@ -51,6 +51,9 @@ router.get("/:sid", (req, res) => {
     });
 });
 
+router.get("/user/:uid",(req,res)=>{
+  
+});
 
 router.get(
   "/:search/:sortCategory/:category/:price/:limit/:skip",

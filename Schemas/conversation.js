@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const schema = require("mongoose").Schema;
 
-const chatSchema=new schema(
+const conversationSchema=new schema(
   {
     user1:{
       type:schema.Types.ObjectId,
@@ -20,5 +20,5 @@ const chatSchema=new schema(
   },
   { timestamps: true });
 
-const chatConstructor=mongoose.model("chats",chatSchema);
-module.exports=chatConstructor;
+const conversationConstructor=mongoose.model("conversations",conversationSchema);
+module.exports=conversationConstructor;
