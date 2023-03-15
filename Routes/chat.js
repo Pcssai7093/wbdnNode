@@ -7,7 +7,8 @@ router.get("/temp",(req,res)=>{
   res.send("chat temp");
 });
 
-router.get("/coversation/:uid",(req,res)=>{
+// retrieving conversations for a user
+router.get("/conversation/:uid",(req,res)=>{
   let uid=req.params.uid
   conversationConstructor.find({$or:[{user1:uid},{user2:uid}]})
   .then((result)=>{
@@ -18,6 +19,8 @@ router.get("/coversation/:uid",(req,res)=>{
   })
 });
 
+
+// retrieving messages for a conversation
 router.get("/message/:conversationId",(req,res)=>{
   let cid=req.params.conversationId
   conversationConstructor.find({_id:cid})
@@ -30,6 +33,8 @@ router.get("/message/:conversationId",(req,res)=>{
   })
 });
 
+
+// adding messages in a conversation
 router.post("/message/add/:cid",(req,res)=>{
 //   body contains two user id's and messages
 //   conversationId
@@ -42,26 +47,32 @@ router.post("/message/add/:cid",(req,res)=>{
   //   message:"msg"
   // }
   messageConstructor(data)
-  .save()
-  .then((result)=>{
-    let msgId=result[0]._id;
+    .save()
+    .then((result)=>{
+    
+    let msgId=result._id;
     let uid1=data.from
     let uid2=data.to;
     
     let update = { $push: { messages: [msgId] } };
-    conversationConstructor.update({_id:cid},update)
-    .then((result)=>{
-      res.send(result);
+    conversationConstructor.updateOne({_id:cid},update)
+    .then((result2)=>{
+      res.send(result2);
     })
     .catch((err)=>{
-      res.send("error")
+      res.send(err)
     })
+    
+    // res.send(result)
   })
-  .catch((err)=>{
-    res.send("error")
+    .catch((err)=>{
+    res.send(err)
   })
   
 });
+
+
+// adding adding conversation for users
 
 router.post("/conversation/add",(req,res)=>{
   // res.send("hello");
@@ -85,7 +96,27 @@ router.post("/conversation/add",(req,res)=>{
         conversationConstructor(data)
         .save()
         .then((result)=>{
-          res.send(result);
+          let conversationId=result._id;
+          // adding conversation id's to user's data
+          
+          let update = { $push: { conversations: [conversationId] } };
+          userConstructor.updateOne({_id:uid1},update)
+            .then((result2)=>{
+              // res.send(result2);
+            })
+            .catch((err)=>{
+              res.send(err)
+            })
+          
+          userConstructor.update({_id:uid2},update)
+            .then((result2)=>{
+              // res.send(result2);
+            })
+            .catch((err)=>{
+              res.send(err)
+            })
+          res.send(result);  
+          
         })
         .catch((err)=>{
           res.send("error")
