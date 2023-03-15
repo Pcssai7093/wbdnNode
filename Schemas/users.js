@@ -53,20 +53,13 @@ const userSchema = new schema(
       type: [schema.Types.ObjectId],
       ref: "services",
     },
+    chats:{
+      type:[schema.Types.ObjectId],
+      ref:"chats"
+    }
   },
   { timestamps: true }
 );
 
 const userConstructor = mongoose.model("users", userSchema);
 module.exports = userConstructor;
-
-// * encryting password function
-// async function encryptPassword(password) {
-//   let hash = await bcrypt.hash(password, 2);
-//   return hash;
-// }
-
-// ,
-//   adhaar: {
-//     type: String,
-//   }
