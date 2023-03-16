@@ -10,21 +10,24 @@ router.get("/temp",(req,res)=>{
 // retrieving conversations for a user
 router.get("/conversation/:uid",(req,res)=>{
   let uid=req.params.uid
-  conversationConstructor.find({$or:[{user1:uid},{user2:uid}]})
+  
+  conversationConstructor.find({users:uid})
+  .populate("users","fullname")
   .then((result)=>{
     res.send(result);
   })
   .catch((err)=>{
     res.send("error")
   })
+  
 });
 
 
 // retrieving messages for a conversation
 router.get("/message/:conversationId",(req,res)=>{
-  let cid=req.params.conversationId
+  let cid=req.params.conversationIdc
   conversationConstructor.find({_id:cid})
-  .populate("messages")
+  .populate("messages","message")
   .then((result)=>{
     res.send(result);
   })
@@ -35,7 +38,8 @@ router.get("/message/:conversationId",(req,res)=>{
 
 
 // adding messages in a conversation
-router.post("/message/add/:cid",(req,res)=>{
+router.post("/message/add",(req,res)=>{
+  // no conversation id is needed
 //   body contains two user id's and messages
 //   conversationId
   const cid=req.params.cid
@@ -49,21 +53,8 @@ router.post("/message/add/:cid",(req,res)=>{
   messageConstructor(data)
     .save()
     .then((result)=>{
-    
-    let msgId=result._id;
-    let uid1=data.from
-    let uid2=data.to;
-    
-    let update = { $push: { messages: [msgId] } };
-    conversationConstructor.updateOne({_id:cid},update)
-    .then((result2)=>{
-      res.send(result2);
-    })
-    .catch((err)=>{
-      res.send(err)
-    })
-    
-    // res.send(result)
+
+    res.send(result)
   })
     .catch((err)=>{
     res.send(err)
@@ -84,37 +75,18 @@ router.post("/conversation/add",(req,res)=>{
   // }
   const uid1=data.user1;
   const uid2=data.user2;
-  conversationConstructor.find({$or:
+  conversationConstructor.find({$and:
                                 [
-                                  {user1:uid1,user2:uid2},
-                                  {user1:uid2,user2:uid1}
+                                  {users:uid1},
+                                  {users:uid2}
                                 ]
                                })
     .then((result)=>{
       
     if(result.length==0){
-        conversationConstructor(data)
+        conversationConstructor({users:[uid1,uid2]})
         .save()
         .then((result)=>{
-          let conversationId=result._id;
-          // adding conversation id's to user's data
-          
-          let update = { $push: { conversations: [conversationId] } };
-          userConstructor.updateOne({_id:uid1},update)
-            .then((result2)=>{
-              // res.send(result2);
-            })
-            .catch((err)=>{
-              res.send(err)
-            })
-          
-          userConstructor.update({_id:uid2},update)
-            .then((result2)=>{
-              // res.send(result2);
-            })
-            .catch((err)=>{
-              res.send(err)
-            })
           res.send(result);  
           
         })
