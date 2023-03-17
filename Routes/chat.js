@@ -27,7 +27,7 @@ router.get("/temp",(req,res)=>{
 router.get("/message/:conversationId",(req,res)=>{
   let cid=req.params.conversationId
   conversationConstructor.find({_id:cid})
-  .populate("messages",["message","from"])
+  .populate("messages",["message","from","createdAt"])
   .then((result)=>{
     res.send(result);
   })
