@@ -1,5 +1,6 @@
 const router=require("express").Router()
 const serviceConstructor = module.require("../Schemas/services");
+const userConstructor = module.require("../Schemas/users");
 
 router.get("/", (req, res) => {
   
@@ -27,7 +28,7 @@ router.post("/add", (req, res) => {
       userConstructor
         .update({ _id: sellerId }, update)
         .then((result2) => {
-          res.send(result._id);
+          res.send(result2);
         })
         .catch((err) => {
           res.send(err);

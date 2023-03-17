@@ -8,7 +8,7 @@ router.get("/temp",(req,res)=>{
 });
 
 // retrieving conversations for a user
-router.get("/conversation/:uid",(req,res)=>{
+  router.get("/conversation/:uid",(req,res)=>{
   let uid=req.params.uid
   
   conversationConstructor.find({users:uid})
@@ -25,9 +25,9 @@ router.get("/conversation/:uid",(req,res)=>{
 
 // retrieving messages for a conversation
 router.get("/message/:conversationId",(req,res)=>{
-  let cid=req.params.conversationIdc
+  let cid=req.params.conversationId
   conversationConstructor.find({_id:cid})
-  .populate("messages","message")
+  .populate("messages",["message","from"])
   .then((result)=>{
     res.send(result);
   })
