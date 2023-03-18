@@ -76,7 +76,8 @@ router.post("/conversation/add",(req,res)=>{
   // }
   const uid1=data.user1;
   const uid2=data.user2;
-  conversationConstructor.find({$and:
+  if(uid1!==uid2){
+    conversationConstructor.find({$and:
                                 [
                                   {users:uid1},
                                   {users:uid2}
@@ -103,6 +104,11 @@ router.post("/conversation/add",(req,res)=>{
   .catch((err)=>{
     res.send("err2")
   })
+  } 
+  else{
+    res.send("same user");
+  }
+    
 });
 
 module.exports=router;

@@ -21,7 +21,8 @@
     "nodemailer": "^6.9.0",
     "nodemon": "^2.0.20",
     "socket.io":"4.x",
-    "cookie-parser": "1.x"
+    "cookie-parser": "1.x",
+    "morgan":"1.10.0"
   },
   "engines": {
     "node": "16.x"

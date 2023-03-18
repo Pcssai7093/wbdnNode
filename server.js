@@ -1,3 +1,6 @@
+// an user id
+// 63c16c3ad393089e5d87fea4
+
 const express = require("express");
 const bodyparser = require("body-parser");
 const dotenv = require("dotenv");
@@ -8,12 +11,14 @@ const app = express();
 const cors = require("cors");
 const socket=require("socket.io")
 const cookieParser = require("cookie-parser");
+const morgan=require("morgan")
 
 const userRoutes=require("./Routes/user")
 const serviceRoutes=require("./Routes/service")
 const wishlistRoutes=require("./Routes/wishlist")
 const chatRoutes=require("./Routes/chat")
 
+app.use(morgan("tiny"));
 app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(cookieParser())
@@ -21,6 +26,7 @@ app.use("/user",userRoutes  )
 app.use("/service",serviceRoutes)
 app.use("/wishlist",wishlistRoutes)
 app.use("/chat",chatRoutes)
+
 
 
 dotenv.config("./.env");
@@ -41,6 +47,7 @@ const server=app.listen(port, () => {
       console.log("mongodb connection error");
     });
 });
+
 
 
 //  socket.io code
@@ -66,7 +73,7 @@ io.on("connection",(clientSocket)=>{
   
   clientSocket.on("sendMessage",(fromUserId,toUserId,Message)=>{
     let toSocketId=users[toUserId]
-   console.log("send Message request to "+toSocketId);
+   // console.log("send Message request to "+toSocketId);
     if(toSocketId){
       clientSocket.to(toSocketId).emit("receiveMessage",fromUserId,toUserId,Message);
     }
@@ -87,10 +94,10 @@ app.post("/admin/signin", (req, res) => {
   adminConstructor
     .find({ email: data.email })
     .then((result) => {
-      console.log(data.password);
-      console.log(result[0].password);
+      // console.log(data.password);
+      // console.log(result[0].password);
       let hashnew = bcrypt.hashSync(data.password, 2);
-      console.log(bcrypt.compareSync(data.password, hashnew));
+      // console.log(bcrypt.compareSync(data.password, hashnew));
       if (bcrypt.compareSync(data.password, result[0].password)) {
         res.send(result[0].fullname);
       } else {
