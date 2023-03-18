@@ -13,6 +13,7 @@ router.get("/temp",(req,res)=>{
   
   conversationConstructor.find({users:uid})
   .populate("users","fullname")
+  .sort({createdAt:-1})
   .then((result)=>{
     res.send(result);
   })

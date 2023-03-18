@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const app = express();
 const cors = require("cors");
 const socket=require("socket.io")
+const cookieParser = require("cookie-parser");
 
 const userRoutes=require("./Routes/user")
 const serviceRoutes=require("./Routes/service")
@@ -15,7 +16,8 @@ const chatRoutes=require("./Routes/chat")
 
 app.use(cors({ origin: true }));
 app.use(express.json());
-app.use("/user",userRoutes)
+app.use(cookieParser())
+app.use("/user",userRoutes  )
 app.use("/service",serviceRoutes)
 app.use("/wishlist",wishlistRoutes)
 app.use("/chat",chatRoutes)
@@ -41,12 +43,36 @@ const server=app.listen(port, () => {
 });
 
 
-// const io=socket(server)
-// * socket connection
-// io.on("connection",(clientSocket)=>{
-//   console.log(`new socket connection is established with socket ${clientSocket}`)
-// });
+//  socket.io code
 
+// * users variable maintains all the active socket connections with key userId
+let users={}
+
+function addUser(socketId,userId){
+  users[userId]=socketId
+}
+
+const io=socket(server,{ cors: {
+    origin: ["http://localhost:3000","http://localhost:3001"],
+    methods: ["GET", "POST"]
+  }})
+io.on("connection",(clientSocket)=>{
+ 
+  // io.to(clientSocket).emit("welcome","Server: :) hello u r connected");
+  
+  clientSocket.on("addUser",(userId)=>{
+    addUser(clientSocket.id,userId)
+  });
+  
+  clientSocket.on("sendMessage",(fromUserId,toUserId,Message)=>{
+    let toSocketId=users[toUserId]
+   console.log("send Message request to "+toSocketId);
+    if(toSocketId){
+      clientSocket.to(toSocketId).emit("receiveMessage",fromUserId,toUserId,Message);
+    }
+  })
+  
+});
 
 
 app.get("/", (req, res) => {
