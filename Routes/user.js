@@ -31,6 +31,31 @@ router.get("/:uid",auth, (req, res) => {
     });
 });
 
+
+router.get("/profile/:uid", (req, res) => {
+  userConstructor
+    .findOne({ _id: req.params.uid })
+    .populate("services")
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
+router.post("/profile/update/:uid", (req, res) => {
+  const data=req.body;
+  userConstructor
+    .updateOne({ _id: req.params.uid },data)
+    .then((result) => {
+      res.send(true);
+    })
+    .catch((err) => {
+      res.send(false);
+    });
+});
+
 router.post("/update", (req, res) => {
   // * user data update
   const data = req.body;

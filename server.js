@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const adminConstructor = module.require("./Schemas/admins");
 const userConstructor = module.require("./Schemas/users");
 const serviceConstructor = module.require("./Schemas/services");
+const messageConstructor=module.require("./Schemas/message");
 const bcrypt = require("bcrypt");
 const app = express();
 const cors = require("cors");
@@ -83,6 +84,16 @@ io.on("connection", (clientSocket) => {
       clientSocket
         .to(toSocketId)
         .emit("receiveMessage", fromUserId, toUserId, Message);
+        
+      const messageId=Message._id;
+      messageConstructor.updateOne({_id:messageId},{seen:true})
+      .then((result)=>{
+        
+      })
+      .catch((err)=>{
+        console.log("err");
+      })
+      
     }
   });
 });
@@ -102,6 +113,19 @@ app.post("/forgotpass", (req,res) => {
     res.send(err);
   }) 
   
+})
+
+app.get("/profilee/:pid", (req,res) => {
+  const id = req.params.pid;
+  serviceConstructor
+  .find({_id:id})
+  .populate("seller")
+  .then((result) => {
+      res.send(result);
+  })
+  .catch((err) => {
+      res.send(err);
+  })
 })
 
 app.get("/profile/:uid", (req, res) => {
@@ -138,6 +162,7 @@ app.post("/profile/:uid", (req, res) => {
 app.get("/admin/users", (req, res) => {
   userConstructor
     .find()
+    .populate("services")
     .then((result) => {
       res.send(result);
     })
@@ -271,14 +296,17 @@ app.get("/test", async (req, res) => {
 });
 
 const storage = multer.memoryStorage();
-const multerUploads = multer({ storage }).single("image");
+const multerUploads = multer({ storage }).array("images",2);
 
 app.post("/upload", multerUploads, (req, res) => {
-  let imgData = bufferParser(req);
-  cloudinary.uploader
-    .upload(imgData)
-    .then((response) => {
-      res.send(response.secure_url);
+  console.log(req.body,req.files);
+  res.send("hello");
+  
+  // let imgData = bufferParser(req);
+  // cloudinary.uploader
+  //   .upload(imgData)
+  //   .then((response) => {
+  //     res.send(response.secure_url);
 
       //      response format
       // {
@@ -303,10 +331,10 @@ app.post("/upload", multerUploads, (req, res) => {
       //   folder: "",
       //   api_key: "812339449319741",
       // }
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+    // })
+    // .catch((err) => {
+    //   res.send(err);
+    // });
   // res.send("image uploaded");
 });
 //* route for filter and pagination

@@ -1,3 +1,4 @@
+
 const encryptPassword = module.require("./encrypt");
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
