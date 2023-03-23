@@ -15,7 +15,11 @@ const messageSchema=new schema(
   to:{
     type:schema.Types.ObjectId,
     required:true
-  }
+  },
+  seen:{
+        type: Boolean,
+        default: false
+      },
 },
 { timestamps: true });
 
@@ -39,3 +43,7 @@ messageSchema.pre('save',async function(next){
 
 const messageConstructor=mongoose.model("messages",messageSchema)
 module.exports = messageConstructor;
+
+// messageConstructor.updateMany({},{seen:false}).then((result)=>{
+//   console.log(result);
+// })

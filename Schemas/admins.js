@@ -12,7 +12,7 @@ const adminSchema = new schema(
       type: String,
       required: true,
       lowercase: true,
-      set: encryptPassword,
+      // set: encryptPassword,
     },
     email: {
       type: String,
