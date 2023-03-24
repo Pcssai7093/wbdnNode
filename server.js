@@ -19,7 +19,7 @@ const multer = require("multer");
 const DatauriParser = require("datauri/parser");
 const parser = new DatauriParser();
 const path = require("path");
-const { bufferParser, cloudinary } = require("./cloudinary");
+const { bufferParser, cloudinary,multerUploads } = require("./cloudinary");
 
 const userRoutes = require("./Routes/user");
 const serviceRoutes = require("./Routes/service");
@@ -295,8 +295,8 @@ app.get("/test", async (req, res) => {
   res.send(data);
 });
 
-const storage = multer.memoryStorage();
-const multerUploads = multer({ storage }).array("images",2);
+// const storage = multer.memoryStorage();
+// const multerUploads = multer({ storage }).array("images",2);
 
 app.post("/upload", multerUploads, (req, res) => {
   console.log(req.body,req.files);

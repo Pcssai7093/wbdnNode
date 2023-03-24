@@ -1,6 +1,7 @@
 const router=require("express").Router()
 const serviceConstructor = module.require("../Schemas/services");
 const userConstructor = module.require("../Schemas/users");
+const { bufferParser, cloudinary,multerUploads } = require("../cloudinary");
 
 router.get("/", (req, res) => {
   
@@ -16,11 +17,32 @@ router.get("/", (req, res) => {
 });
 
 
-router.post("/add", (req, res) => {
+router.post("/add",multerUploads, async (req, res) => {
   let data = req.body;
+  let imageData=bufferParser(req);
+  // console.log(data);
+  // console.log(imageData.length);
+  
+  // this array has urls of the cloud image
+  let productImages=[]
+  for(let i =0;i<2;i++){
+    await cloudinary.uploader.upload(imageData[i])
+    .then((response)=>{
+      // console.log(response.secure_url);
+      productImages.push(response.secure_url);
+    })
+    .catch((err)=>{
+      res.send(false)
+    })
+  }
+  console.log(productImages);
+  // res.send(true);
+  
+  
+  
   let sellerId = req.body.seller;
   console.log(sellerId);
-  serviceConstructor(data)
+  serviceConstructor({...data,productImages})
     .save()
     .then((result) => {
       // * syntax to update
@@ -28,16 +50,17 @@ router.post("/add", (req, res) => {
       userConstructor
         .update({ _id: sellerId }, update)
         .then((result2) => {
-          res.send(result2);
+          res.send(true);
         })
         .catch((err) => {
-          res.send(err);
+          res.send(false);
         });
     })
     .catch((err) => {
-      res.send(err);
+      res.send(false);
     });
 });
+
 
 router.get("/:sid", (req, res) => {
   let serviceId = req.params.sid;

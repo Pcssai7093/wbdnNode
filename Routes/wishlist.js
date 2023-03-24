@@ -13,7 +13,8 @@ router.post("/add", (req, res) => {
   userConstructor
     .updateOne({ _id: data.uid }, update)
     .then((result) => {
-      res.send(result);
+    console.log(result);
+      res.send("hello");
     })
     .catch((err) => {
       res.send(err);
