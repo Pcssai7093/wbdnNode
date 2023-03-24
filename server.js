@@ -18,6 +18,7 @@ const morgan = require("morgan");
 const multer = require("multer");
 const DatauriParser = require("datauri/parser");
 const parser = new DatauriParser();
+const fs = require("fs");
 const path = require("path");
 const { bufferParser, cloudinary,multerUploads } = require("./cloudinary");
 
@@ -26,7 +27,13 @@ const serviceRoutes = require("./Routes/service");
 const wishlistRoutes = require("./Routes/wishlist");
 const chatRoutes = require("./Routes/chat");
 
-// app.use(morgan("tiny"));
+let logStream = fs.createWriteStream("./Files/Logs.log", {
+  flags: "a",
+});
+
+app.use(morgan("tiny",{
+  stream: logStream,
+}));
 
 app.use(cookieParser());
 app.use(cors({ origin: true }));
