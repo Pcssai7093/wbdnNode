@@ -1,6 +1,5 @@
 // an user id
 // 63c16c3ad393089e5d87fea4
-
 const express = require("express");
 const bodyparser = require("body-parser");
 const dotenv = require("dotenv");
@@ -9,6 +8,7 @@ const adminConstructor = module.require("./Schemas/admins");
 const userConstructor = module.require("./Schemas/users");
 const serviceConstructor = module.require("./Schemas/services");
 const messageConstructor=module.require("./Schemas/message");
+const Contact = module.require("./Schemas/query");
 const bcrypt = require("bcrypt");
 const app = express();
 const cors = require("cors");
@@ -106,8 +106,33 @@ io.on("connection", (clientSocket) => {
 });
 
 app.get("/", (req, res) => {
-  res.send(`server running at port ${port}`);
+  userConstructor.updateMany({},{$set:{conversations:[]}}).then((response)=>{
+    console.log("updated");
+     res.send(`server running at port ${port}`);
+  }).
+  catch((err)=>{
+    res.send(err);
+  })
+ // res.send(`server running at port ${port}`);
 });
+
+app.post("/resetpassword/:id", (req,res) => {
+  const id = req.params.id;
+  console.log("hello")
+  userConstructor
+  .findByIdAndUpdate({_id:id},
+  {
+      password: req.body.password
+  })
+  .then((result) => {
+    console.log(result)
+    res.send(result)
+  })
+  .catch((err) => {
+    res.send(err)
+    console.log(err);
+  })
+})
 
 app.post("/forgotpass", (req,res) => {
   
@@ -118,8 +143,7 @@ app.post("/forgotpass", (req,res) => {
   })
   .catch((err) => {
     res.send(err);
-  }) 
-  
+  })   
 })
 
 app.get("/profilee/:pid", (req,res) => {
@@ -345,3 +369,31 @@ app.post("/upload", multerUploads, (req, res) => {
   // res.send("image uploaded");
 });
 //* route for filter and pagination
+
+
+app.post('/insert', async(req, res) => {
+
+  // const FirstName = req.body.firstName
+  // const CompanyRole = req.body.companyRole
+  // console.log(FirstName, CompanyRole)\
+  console.log(req.body)
+  const formData  =  new Contact(
+      {
+          name: req.body.name,
+           email: req.body.email,
+          message: req.body.message
+      }
+  )
+  try{
+   
+      await formData.save();
+      res.send("inserted data..")
+
+  } catch(err){
+      console.log(err)
+  }
+});
+
+app.get("/queries",(req,res)=>{
+  
+});
